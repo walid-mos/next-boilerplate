@@ -1,14 +1,20 @@
-import { Button } from "@/components/ui/Button"
+import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
 
-const Home = () => ( 
-  <main className="h-full grid place-items-center"> 
-    <div className="text-center">
-      <h1 className="text-3xl">Welcome to Our Boilerplate App</h1>
-      <h3 className="text-xl">This is a brief description of our boilerplate app. It&apos;s designed to help you kickstart your next project.</h3>
+const Home = () => (
+	<main className="h-full grid place-items-center">
+		<div className="text-center">
+			<h1 className="text-3xl">Welcome to Our Boilerplate App</h1>
+			<h3 className="text-xl">
+				This is a brief description of our boilerplate app. It&apos;s designed to help you kickstart your next
+				project.
+			</h3>
 
-      <Button variant="destructive" className="my-3"> This is a button </Button>
-    </div>
-  </main> 
+			<Link href="/login">
+				<Button className="my-3"> Login </Button>
+			</Link>
+		</div>
+	</main>
 )
 
 export default Home

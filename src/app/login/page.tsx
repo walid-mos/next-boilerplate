@@ -1,61 +1,36 @@
-'use client'
+import { Label } from '@/components/ui/Label'
+import { login, signup } from './action'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+const LoginPage = () => (
+	<form className="max-w-sm space-y-6">
+		<div className="space-y-2 text-center">
+			<h1 className="text-3xl font-bold">Login</h1>
+			<p className="text-gray-500 dark:text-gray-400">Enter your email and password to login to your account</p>
+		</div>
+		<div className="space-y-4">
+			<div className="space-y-2">
+				<Label htmlFor="email">Email</Label>
+				<Input name="email" id="email" placeholder="m@example.com" required type="email" />
+			</div>
+			<div className="space-y-2">
+				<Label htmlFor="password">Password</Label>
+				<Input name="password" id="password" required type="password" />
+			</div>
+			<Button className="w-full" formAction={login}>
+				Login
+			</Button>
+			<Button className="w-full" variant="outline" formAction={signup}>
+				Sign Up
+			</Button>
+			<Link className="inline-block w-full text-center text-sm underline" href="#">
+				Forgot your password?
+			</Link>
+		</div>
+	</form>
+)
+// <button formAction={signup}>Sign up</button>
 
-import type { Database } from '@/types/database.types'
-
-const Login = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const router = useRouter()
-    const supabase = createClientComponentClient<Database>()
-
-    const handleSignUp = async () => {
-        const signupResult = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${location.origin}/api/auth/callback`,
-            },
-        })
-
-        // TODO: error handling via toasts
-        if (signupResult.error) {
-            throw signupResult.error
-        }
-
-        router.refresh()
-    }
-
-    const handleSignIn = async () => {
-        await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
-        router.refresh()
-    }
-
-    const handleSignOut = async () => {
-        await supabase.auth.signOut()
-        router.refresh()
-    }
-
-    return (
-        <>
-            <input name="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-            <input
-                type="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-            />
-            <button onClick={handleSignUp}>Sign up</button>
-            <button onClick={handleSignIn}>Sign in</button>
-            <button onClick={handleSignOut}>Sign out</button>
-        </>
-    )
-}
-
-export default Login
+export default LoginPage
