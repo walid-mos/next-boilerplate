@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/action'
 
-export async function login(formData: FormData) {
+const login = async (formData: FormData) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -17,11 +17,10 @@ export async function login(formData: FormData) {
 		password: formData.get('password') as string,
 	}
 
-	console.log(data)
 	const { error } = await supabase.auth.signInWithPassword(data)
 
 	if (error) {
-		console.log(error)
+		console.error(error)
 		redirect('/error')
 	}
 
@@ -29,7 +28,7 @@ export async function login(formData: FormData) {
 	redirect('/user')
 }
 
-export async function signup(formData: FormData) {
+const signup = async (formData: FormData) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -52,3 +51,5 @@ export async function signup(formData: FormData) {
 	revalidatePath('/login', 'layout')
 	redirect('/login')
 }
+
+export { signup, login }

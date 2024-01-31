@@ -1,18 +1,18 @@
 import Link from 'next/link'
 
-import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
 
 import { Label } from '@/components/ui/Label'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 
-import { login } from './action'
+import { signup } from '../action'
 
-const LoginPage = () => (
-	<form className="max-w-sm space-y-6">
+const SignUp = () => (
+	<form className="max-w-sm min-w-60 space-y-6">
 		<div className="space-y-2 text-center">
-			<h1 className="text-3xl font-bold">Login</h1>
-			<p className="text-gray-500 dark:text-gray-400">Enter your email and password to login to your account</p>
+			<h1 className="text-3xl font-bold">Signup</h1>
+			<p className="text-gray-500 dark:text-gray-400">Join us in this adventure !</p>
 		</div>
 		<div className="space-y-4">
 			<div className="space-y-2">
@@ -23,20 +23,17 @@ const LoginPage = () => (
 				<Label htmlFor="password">Password</Label>
 				<Input name="password" id="password" required type="password" />
 			</div>
-			<Button className="w-full" formAction={login}>
-				Login
+			<Button formAction={signup} className="w-full mt-2">
+				Sign Up
 			</Button>
-			<Link href="login/signup">
+			<Link href="/login">
 				<Button className="w-full mt-2" variant="outline">
-					Sign Up
-					<ArrowRightIcon className="ml-2 h-4 w-4" />
+					<ArrowLeftIcon className="mr-2 h-4 w-4" />
+					Back to Login
 				</Button>
-			</Link>
-			<Link className="inline-block w-full text-center text-sm underline" href="#">
-				Forgot your password?
 			</Link>
 		</div>
 	</form>
 )
 
-export default LoginPage
+export default SignUp
