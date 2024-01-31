@@ -11,7 +11,7 @@ const Layout = async ({ children }: PropsWithChildren) => {
 
 	const { data, error } = await supabase.auth.getUser()
 	if (error || !data?.user) {
-		redirect('/login')
+		redirect('/signin')
 	}
 
 	return <div> {children} </div>

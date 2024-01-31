@@ -26,7 +26,7 @@ const SignUp = () => (
 			<Button formAction={signup} className="w-full mt-2">
 				Sign Up
 			</Button>
-			<Link href="/login">
+			<Link href="/signin">
 				<Button className="w-full mt-2" variant="outline">
 					<ArrowLeftIcon className="mr-2 h-4 w-4" />
 					Back to Login

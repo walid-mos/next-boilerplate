@@ -4,28 +4,32 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { createClient } from '@/lib/supabase/action'
+import createClient from '@/lib/supabase/action'
+import { LoginSchema } from '@/lib/zod'
 
-const login = async (formData: FormData) => {
+const login = async (prevState: unknown, formData: FormData) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	// type-casting here for convenience
-	// in practice, you should validate your inputs
-	const data = {
-		email: formData.get('email') as string,
-		password: formData.get('password') as string,
+	const validatedFields = LoginSchema.safeParse({
+		email: formData.get('email'),
+		password: formData.get('password'),
+	})
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		}
 	}
 
-	const { error } = await supabase.auth.signInWithPassword(data)
+	const { error } = await supabase.auth.signInWithPassword(validatedFields.data)
 
 	if (error) {
-		console.error(error)
-		redirect('/error')
+		return { err: error.message }
 	}
 
 	revalidatePath('/user', 'layout')
-	redirect('/user')
+	return redirect('/user')
 }
 
 const signup = async (formData: FormData) => {
@@ -39,17 +43,14 @@ const signup = async (formData: FormData) => {
 		password: formData.get('password') as string,
 	}
 
-	console.log(data)
-
 	const { error } = await supabase.auth.signUp(data)
 
 	if (error) {
-		console.log(error)
 		redirect('/error')
 	}
 
-	revalidatePath('/login', 'layout')
-	redirect('/login')
+	revalidatePath('/signin', 'layout')
+	redirect('/signin')
 }
 
 export { signup, login }

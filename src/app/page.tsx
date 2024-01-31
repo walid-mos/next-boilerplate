@@ -11,7 +11,7 @@ const Home = () => (
 				project.
 			</h3>
 
-			<Link href="/login">
+			<Link href="/signin">
 				<Button className="my-3"> Login </Button>
 			</Link>
 		</div>
