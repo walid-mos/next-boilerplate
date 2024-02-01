@@ -38,7 +38,7 @@ const LoginForm = () => {
 				<Label className={errors?.password && 'text-red-400'} htmlFor="password">
 					Password
 				</Label>
-				<Input name="password" id="password" required type="password" />
+				<Input name="password" id="password" type="password" />
 				{errors?.password ? <p className="text-red-400 text-xs">{errors.password}</p> : null}
 			</div>
 			<Button className="w-full" formAction={loginAction}>
