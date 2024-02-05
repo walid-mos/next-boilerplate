@@ -1,20 +1,33 @@
+/* eslint-disable camelcase */
 import { z } from 'zod'
 
-const EmailSchema = z
+const Email = z
 	.string({
-		required_error: 'Name is required',
-		invalid_type_error: 'Name must be a string',
+		required_error: 'Email is required',
 	})
 	.email({ message: 'Invalid email address' })
 	.min(5, { message: 'Must be 5 or more characters long' })
-const PasswordSchema = z
+const Password = z
 	.string({
-		required_error: 'Name is required',
-		invalid_type_error: 'Name must be a string',
+		required_error: 'Password is required',
 	})
 	.min(5, { message: 'Must be 5 or more characters long' })
 	.max(64, { message: 'Must be 64 or fewer characters long' })
 
-const LoginSchema = z.object({ email: EmailSchema, password: PasswordSchema })
+export const PasswordWithConfirmSchema = z.object({
+	password: Password,
+	confirmPassword: z.string({
+		required_error: 'Confirm password is required',
+	}),
+})
 
-export { EmailSchema, PasswordSchema, LoginSchema }
+const refinePasswordValidationSchema = (schema: z.AnyZodObject) =>
+	PasswordWithConfirmSchema.merge(schema).refine(values => values.password === values.confirmPassword, {
+		message: 'Passwords are not the same',
+		path: ['confirmPassword'],
+	})
+
+export const EmailSchema = z.object({ email: Email })
+export const PasswordSchema = z.object({ password: Password })
+export const LoginSchema = z.object({ email: Email, password: Password })
+export const SignupSchema = refinePasswordValidationSchema(LoginSchema)

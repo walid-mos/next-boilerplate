@@ -1,18 +1,18 @@
 import Link from 'next/link'
 
-import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/components/ui/Button'
 
-import LoginForm from './LoginForm'
+import EmailForm from './EmailForm'
 
 import type { LanguageProps } from '@/types/props'
 
-const LoginPage: React.FC<LanguageProps> = async ({ params: { locale } }) => {
+const ForgotPassword: React.FC<LanguageProps> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
 
-	const t = await getTranslations({ locale, namespace: 'login.signin' })
+	const t = await getTranslations({ locale, namespace: 'login.forgotpassword' })
 
 	return (
 		<form className="max-w-sm space-y-6">
@@ -21,19 +21,16 @@ const LoginPage: React.FC<LanguageProps> = async ({ params: { locale } }) => {
 				<p className="text-gray-500 dark:text-gray-400">{t('description')}</p>
 			</div>
 			<div className="space-y-4">
-				<LoginForm />
-				<Link href="/signup">
+				<EmailForm />
+				<Link href="/signin">
 					<Button className="w-full mt-2" variant="outline">
-						{t('signup')}
-						<ArrowRightIcon className="ml-2 h-4 w-4" />
+						<ArrowLeftIcon className="ml-2 h-4 w-4" />
+						{t('backlogin')}
 					</Button>
-				</Link>
-				<Link className="inline-block w-full text-center text-sm underline" href="/forgotpassword">
-					{t('forgot')}
 				</Link>
 			</div>
 		</form>
 	)
 }
 
-export default LoginPage
+export default ForgotPassword

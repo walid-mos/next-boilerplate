@@ -5,8 +5,27 @@
         "loginButton": "Login"
     },
     "login": {
-        "signin": {},
-        "signup": {}
-    },
-    "user": {}
+        "signin": {
+            "title": "Login",
+            "description": "Enter your email and password to login to your account",
+            "signup": "Sign Up",
+            "forgot": "Forgot your password ?"
+        },
+        "signup": {
+            "title": "Register",
+            "description": "Join us in this adventure !",
+            "email": "Email",
+            "password": "Password",
+            "signup": "Sign Up",
+            "backlogin": "Back to Login"
+        },
+        "forgotpassword": {
+            "title": "Reset Password",
+            "description": "If you forgot your password, we will send you a mail to create a new one.",
+            "email": "Email",
+            "send": "Send",
+            "backlogin": "Back to Login"
+        },
+        "user": {}
+    }
 }

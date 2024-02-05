@@ -5,9 +5,10 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import createClient from '@/lib/supabase/action'
-import { LoginSchema } from '@/lib/zod'
+import { EmailSchema, LoginSchema, PasswordWithConfirmSchema } from '@/lib/zod'
+import { SITE_URL } from '@/constants'
 
-const login = async (prevState: unknown, formData: FormData) => {
+export const login = async (prevState: unknown, formData: FormData) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -32,25 +33,77 @@ const login = async (prevState: unknown, formData: FormData) => {
 	return redirect('/user')
 }
 
-const signup = async (formData: FormData) => {
+export const signup = async (formData: FormData) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	// type-casting here for convenience
-	// in practice, you should validate your inputs
-	const data = {
-		email: formData.get('email') as string,
-		password: formData.get('password') as string,
+	const validatedFields = LoginSchema.safeParse({
+		email: formData.get('email'),
+		password: formData.get('password'),
+	})
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		}
 	}
 
-	const { error } = await supabase.auth.signUp(data)
+	const { error } = await supabase.auth.signUp(validatedFields.data)
 
 	if (error) {
-		redirect('/error')
+		return { err: error.message }
 	}
 
 	revalidatePath('/signin', 'layout')
-	redirect('/signin')
+	return redirect('/signin')
 }
 
-export { signup, login }
+export const forgotPassword = async (prevState: unknown, formData: FormData) => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const validatedFields = EmailSchema.safeParse({
+		email: formData.get('email'),
+	})
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		}
+	}
+
+	const { error } = await supabase.auth.resetPasswordForEmail(validatedFields.data.email, {
+		redirectTo: `http://${SITE_URL}/recoverpassword`,
+	})
+
+	if (error) {
+		return { err: error.message }
+	}
+
+	return redirect('/waitingrecover')
+}
+
+export const recoverPassword = async (prevState: unknown, formData: FormData) => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const validatedFields = PasswordWithConfirmSchema.safeParse({
+		password: formData.get('password'),
+		confirmPassword: formData.get('confirmPassword'),
+	})
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+		}
+	}
+
+	const { error } = await supabase.auth.updateUser({ password: validatedFields.data.password })
+
+	if (error) {
+		return { err: error.message }
+	}
+
+	revalidatePath('/login', 'layout')
+	return redirect('/login')
+}

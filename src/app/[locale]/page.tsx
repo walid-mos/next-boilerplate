@@ -3,15 +3,10 @@ import Link from 'next/link'
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/components/ui/Button'
-import { LOCALES_TYPES } from '@/constants'
 
-type Props = {
-	params: {
-		locale: LOCALES_TYPES
-	}
-}
+import type { LanguageProps } from '@/types/props'
 
-const Home: React.FC<Props> = async ({ params: { locale } }) => {
+const Home: React.FC<LanguageProps> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
 
 	const t = await getTranslations({ locale, namespace: 'landing' })
