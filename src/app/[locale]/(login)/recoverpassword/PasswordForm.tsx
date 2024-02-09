@@ -11,11 +11,19 @@ import { Button } from '@/components/ui/Button'
 
 import { recoverPassword } from '../action'
 
+type Props = {
+	t: {
+		password: string
+		confirmPassword: string
+		submit: string
+	}
+}
+
 const initialState = {
 	err: '',
 }
 
-const PasswordForm = () => {
+const PasswordForm: React.FC<Props> = ({ t }) => {
 	const [state, recoverPasswordAction] = useFormState(recoverPassword, initialState)
 
 	const { errors } = state
@@ -29,20 +37,20 @@ const PasswordForm = () => {
 		<>
 			<div className="space-y-2">
 				<Label className={errors?.password && 'text-red-400'} htmlFor="password">
-					Password
+					{t.password}
 				</Label>
 				<Input name="password" id="password" type="password" />
 				{errors?.password ? <p className="text-red-400 text-xs">{errors.password}</p> : null}
 			</div>
 			<div className="space-y-2">
 				<Label className={errors?.confirmPassword && 'text-red-400'} htmlFor="confirmPassword">
-					confirmPassword
+					{t.confirmPassword}
 				</Label>
 				<Input name="confirmPassword" id="confirmPassword" type="password" />
 				{errors?.confirmPassword ? <p className="text-red-400 text-xs">{errors.confirmPassword}</p> : null}
 			</div>
 			<Button className="w-full" formAction={recoverPasswordAction}>
-				Login
+				{t.submit}
 			</Button>
 		</>
 	)

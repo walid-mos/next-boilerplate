@@ -14,6 +14,8 @@ const ForgotPassword: React.FC<LanguageProps> = async ({ params: { locale } }) =
 
 	const t = await getTranslations({ locale, namespace: 'login.forgotpassword' })
 
+	const emailFormTranslations = { email: t('email'), submit: t('send') }
+
 	return (
 		<form className="max-w-sm space-y-6">
 			<div className="space-y-2 text-center">
@@ -21,7 +23,7 @@ const ForgotPassword: React.FC<LanguageProps> = async ({ params: { locale } }) =
 				<p className="text-gray-500 dark:text-gray-400">{t('description')}</p>
 			</div>
 			<div className="space-y-4">
-				<EmailForm />
+				<EmailForm t={emailFormTranslations} />
 				<Link href="/signin">
 					<Button className="w-full mt-2" variant="outline">
 						<ArrowLeftIcon className="ml-2 h-4 w-4" />

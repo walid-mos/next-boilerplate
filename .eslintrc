@@ -10,6 +10,9 @@
                     "^unstable_"
                 ]
             }
+        ],
+        "import/prefer-default-export": [
+            "off"
         ]
     }
 }

@@ -101,6 +101,7 @@ export const recoverPassword = async (prevState: unknown, formData: FormData) =>
 	const { error } = await supabase.auth.updateUser({ password: validatedFields.data.password })
 
 	if (error) {
+		console.error(error)
 		return { err: error.message }
 	}
 

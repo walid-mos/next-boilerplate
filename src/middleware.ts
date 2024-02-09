@@ -1,63 +1,35 @@
-import { type NextRequest, NextResponse } from 'next/server'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { type NextRequest } from 'next/server'
 
 import createIntlMiddleware from 'next-intl/middleware'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+
+import { createClient } from '@/lib/supabase/middleware'
+import { stripLocaleFromPath } from '@/lib/server/pathnames'
 
 import { DEFAULT_LOCALE, LOCALES, SUPABASE_ANON_KEY, SUPABASE_URL } from './constants'
 
+const PUBLIC_ROUTES = ['/', 'signin', 'signup', 'forgetpassword']
+
 export async function middleware(request: NextRequest) {
+	// -- i18n
 	const handleI18nRouting = createIntlMiddleware({
 		locales: LOCALES,
 		defaultLocale: DEFAULT_LOCALE,
 	})
 
-	let response = handleI18nRouting(request)
+	const response = handleI18nRouting(request)
 
+	// -- supabase
 	if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('Supabase env variables not loaded, please check .env')
 
-	const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-		cookies: {
-			get(name: string) {
-				return request.cookies.get(name)?.value
-			},
-			set(name: string, value: string, options: CookieOptions) {
-				request.cookies.set({
-					name,
-					value,
-					...options,
-				})
-				response = NextResponse.next({
-					request: {
-						headers: request.headers,
-					},
-				})
-				response.cookies.set({
-					name,
-					value,
-					...options,
-				})
-			},
-			remove(name: string, options: CookieOptions) {
-				request.cookies.set({
-					name,
-					value: '',
-					...options,
-				})
-				response = NextResponse.next({
-					request: {
-						headers: request.headers,
-					},
-				})
-				response.cookies.set({
-					name,
-					value: '',
-					...options,
-				})
-			},
-		},
-	})
+	const supabase = createClient(request, response)
 
-	await supabase.auth.getUser()
+	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
+	// -- authentication
+	if (!PUBLIC_ROUTES.includes(pathname)) {
+		console.log('not public route', { pathname })
+		await supabase.auth.getUser()
+	}
 
 	return response
 }

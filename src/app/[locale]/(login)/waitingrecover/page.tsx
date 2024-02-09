@@ -5,7 +5,7 @@ import type { LanguageProps } from '@/types/props'
 const WaitingRecover: React.FC<LanguageProps> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
 
-	const t = await getTranslations({ locale, namespace: 'login.signup' })
+	const t = await getTranslations({ locale, namespace: 'login.waitingrecover' })
 
 	return (
 		<div className="max-w-sm min-w-60 space-y-6">

@@ -11,11 +11,18 @@ import { Button } from '@/components/ui/Button'
 
 import { forgotPassword } from '../action'
 
+type Props = {
+	t: {
+		email: string
+		submit: string
+	}
+}
+
 const initialState = {
 	err: '',
 }
 
-const EmailForm = () => {
+const EmailForm: React.FC<Props> = ({ t }) => {
 	const [state, forgotPasswordAction] = useFormState(forgotPassword, initialState)
 
 	const { errors } = state
@@ -29,13 +36,13 @@ const EmailForm = () => {
 		<>
 			<div className="space-y-2">
 				<Label className={errors && 'text-red-400'} htmlFor="email">
-					Email
+					{t.email}
 				</Label>
 				<Input name="email" id="email" placeholder="m@example.com" type="email" />
 				{errors?.email ? <p className="text-red-400 text-xs">{errors.email[0]}</p> : null}
 			</div>
 			<Button className="w-full" formAction={forgotPasswordAction}>
-				Login
+				{t.submit}
 			</Button>
 		</>
 	)

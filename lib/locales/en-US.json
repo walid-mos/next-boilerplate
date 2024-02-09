@@ -26,6 +26,18 @@
             "send": "Send",
             "backlogin": "Back to Login"
         },
+        "recoverpassword": {
+            "title": "Reset Password",
+            "description": "Please choose a new password.",
+            "password": "Password",
+            "confirmpassword": "Confirm your password",
+            "submit": "Change password",
+            "backlogin": "Back to Login"
+        },
+        "waitingrecover": {
+            "title": "Votre lien a bien été envoyé",
+            "description": "Veuillez cliquer sur le lien recu pour changer de mot de passe"
+        },
         "user": {}
     }
 }
