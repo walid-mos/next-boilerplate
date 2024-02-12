@@ -6,7 +6,7 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@/constants'
 
 export const createClient = (request: NextRequest, response: NextResponse) =>
-	createServerClient(SUPABASE_URL as string, SUPABASE_ANON_KEY as string, {
+	createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 		cookies: {
 			get(name: string) {
 				return request.cookies.get(name)?.value

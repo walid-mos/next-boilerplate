@@ -1,10 +1,12 @@
-export const { SITE_URL } = process.env
-if (!SITE_URL) throw new Error('No SITE_URL env variable given')
+const mandatoryEnvCheck = (envVariable: string | undefined) => {
+	if (!envVariable) throw new Error(`${envVariable}`)
+	return envVariable
+}
 
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-if (!SUPABASE_URL) throw new Error('No NEXT_PUBLIC_SUPABASE_URL env variable given')
-if (!SUPABASE_ANON_KEY) throw new Error('No NEXT_PUBLIC_SUPABASE_ANON_KEY env variable given')
+export const { SITE_URL } = process.env
+
+export const SUPABASE_URL = mandatoryEnvCheck(process.env.NEXT_PUBLIC_SUPABASE_URL)
+export const SUPABASE_ANON_KEY = mandatoryEnvCheck(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
 
 export const LOCALES = ['en-US'] as const
 export const LOCALES_SET = new Set<string>(LOCALES)

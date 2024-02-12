@@ -26,7 +26,7 @@ const ForgotPassword: React.FC<LanguageProps> = async ({ params: { locale } }) =
 				<EmailForm t={emailFormTranslations} />
 				<Link href="/signin">
 					<Button className="w-full mt-2" variant="outline">
-						<ArrowLeftIcon className="ml-2 h-4 w-4" />
+						<ArrowLeftIcon className="mr-2 h-4 w-4" />
 						{t('backlogin')}
 					</Button>
 				</Link>

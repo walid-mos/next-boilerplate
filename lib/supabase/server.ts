@@ -5,9 +5,8 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@/constants'
 
-// TODO : Delete the as string
 export const createClient = (cookieStore: ReturnType<typeof cookies>) =>
-	createServerClient(SUPABASE_URL as string, SUPABASE_ANON_KEY as string, {
+	createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 		cookies: {
 			get(name: string) {
 				return cookieStore.get(name)?.value

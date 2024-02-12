@@ -6,30 +6,25 @@ import createIntlMiddleware from 'next-intl/middleware'
 import { createClient } from '@/lib/supabase/middleware'
 import { stripLocaleFromPath } from '@/lib/server/pathnames'
 
-import { DEFAULT_LOCALE, LOCALES, SUPABASE_ANON_KEY, SUPABASE_URL } from './constants'
+import { DEFAULT_LOCALE, LOCALES } from './constants'
 
-const PUBLIC_ROUTES = ['/', 'signin', 'signup', 'forgetpassword']
+const PUBLIC_ROUTES = ['/', '/signin', '/signup', '/forgotpassword', '/waitingrecover']
 
 export async function middleware(request: NextRequest) {
-	// -- i18n
+	// -- Translation - i18n
 	const handleI18nRouting = createIntlMiddleware({
 		locales: LOCALES,
 		defaultLocale: DEFAULT_LOCALE,
 	})
-
 	const response = handleI18nRouting(request)
 
-	// -- supabase
-	if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('Supabase env variables not loaded, please check .env')
+	// -- Auth path guard
+	const isPublicPage = PUBLIC_ROUTES.includes(stripLocaleFromPath(request.nextUrl.pathname))
+	if (isPublicPage) return response
 
+	// -- Supabase + Authentication
 	const supabase = createClient(request, response)
-
-	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
-	// -- authentication
-	if (!PUBLIC_ROUTES.includes(pathname)) {
-		console.log('not public route', { pathname })
-		await supabase.auth.getUser()
-	}
+	await supabase.auth.getUser()
 
 	return response
 }

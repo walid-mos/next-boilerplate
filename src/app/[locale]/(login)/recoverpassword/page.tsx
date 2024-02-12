@@ -1,12 +1,9 @@
 import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation'
 
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/components/ui/Button'
-import { createClient } from '@/lib/supabase/server'
 
 import PasswordForm from './PasswordForm'
 
@@ -16,17 +13,7 @@ type Props = {
 	searchParams: { code: string }
 } & LanguageProps
 
-const getUser = async (code: string) => {
-	if (!code) notFound()
-
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	await supabase.auth.exchangeCodeForSession(code)
-
-	const { data, error } = await supabase.auth.getUser()
-}
-const RecoverPassword: React.FC<Props> = async ({ params: { locale }, searchParams: { code } }) => {
-	await getUser(code)
+const RecoverPassword: React.FC<Props> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
 
 	const t = await getTranslations({ locale, namespace: 'login.recoverpassword' })
