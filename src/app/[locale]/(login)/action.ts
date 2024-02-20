@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
 import createClient from '@/lib/supabase/action'
 import { EmailSchema, LoginSchema, PasswordWithConfirmSchema } from '@/lib/zod'
 import { SITE_URL } from '@/constants'
-import { SendMail } from '@/lib/functions/emails'
+import { SendMail } from '@/lib/emails/sendEmail'
 
 export const login = async (prevState: unknown, formData: FormData) => {
 	const cookieStore = cookies()
@@ -80,12 +80,12 @@ export const forgotPassword = async (prevState: unknown, formData: FormData) => 
 		options: { redirectTo: `http://${SITE_URL}/recoverpassword` },
 	})
 
-	const actionLink = generatedLinkData?.properties?.action_link
+	const emailData = { link: generatedLinkData?.properties?.action_link }
 
 	if (linkError) throw linkError
 
 	const { error } = await SendMail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
-		data: actionLink,
+		data: emailData,
 	})
 	// const { error } = await supabase.auth.resetPasswordForEmail(validatedFields.data.email, {
 	// 	redirectTo: `http://${SITE_URL}/recoverpassword`,
