@@ -7,6 +7,9 @@ export const { SITE_URL } = process.env
 
 export const SUPABASE_URL = mandatoryEnvCheck(process.env.NEXT_PUBLIC_SUPABASE_URL)
 export const SUPABASE_ANON_KEY = mandatoryEnvCheck(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+export const SUPABASE_SERVICE_ROLE_KEY = mandatoryEnvCheck(process.env.SUPABASE_SERVICE_ROLE_KEY)
+
+export const RESEND_API_KEY = mandatoryEnvCheck(process.env.RESEND_API_KEY)
 
 export const LOCALES = ['en-US'] as const
 export const LOCALES_SET = new Set<string>(LOCALES)
