@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server'
 import createIntlMiddleware from 'next-intl/middleware'
 
 import { createClient } from '@/lib/supabase/middleware'
-import { stripLocaleFromPath } from '@/lib/server/pathnames'
+import { stripLocaleFromPath } from '@/lib/functions/pathnames'
 
 import { DEFAULT_LOCALE, LOCALES } from './constants'
 

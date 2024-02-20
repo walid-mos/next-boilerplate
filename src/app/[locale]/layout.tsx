@@ -2,6 +2,7 @@ import Toaster from '@/components/ui/Toast'
 import { LOCALES, type LOCALES_TYPES } from '@/constants'
 
 import Providers from './providers'
+
 import './globals.css'
 
 import type { Metadata } from 'next'
