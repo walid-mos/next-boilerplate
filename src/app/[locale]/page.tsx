@@ -1,26 +1,15 @@
-import Link from 'next/link'
+import { unstable_setRequestLocale } from 'next-intl/server'
 
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
+import Hero from './_components/Hero'
 
-import { Button } from '@/components/ui/Button'
+import type { ParamsLocaleProps } from '@/types/props'
 
-import type { LanguageProps } from '@/types/props'
-
-const Home: React.FC<LanguageProps> = async ({ params: { locale } }) => {
+const Home = async ({ params: { locale } }: ParamsLocaleProps) => {
 	unstable_setRequestLocale(locale)
 
-	const t = await getTranslations({ locale, namespace: 'landing' })
-
 	return (
-		<main className="h-full grid place-items-center">
-			<div className="text-center">
-				<h1 className="text-3xl"> {t('title')}</h1>
-				<h3 className="text-xl">{t('text')}</h3>
-
-				<Link href="/signin">
-					<Button className="my-3"> {t('loginButton')} </Button>
-				</Link>
-			</div>
+		<main className="flex flex-col min-h-[100dvh]">
+			<Hero locale={locale} />
 		</main>
 	)
 }
