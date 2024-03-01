@@ -3,9 +3,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/server'
 
-import type { PropsWithChildren } from 'react'
-
-const Layout = async ({ children }: PropsWithChildren) => {
+const Layout = async ({ children }: React.PropsWithChildren) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 

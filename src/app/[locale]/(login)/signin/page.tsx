@@ -7,15 +7,15 @@ import { Button } from '@/components/ui/Button'
 
 import LoginForm from './LoginForm'
 
-import type { LanguageProps } from '@/types/props'
+import type { ParamsLocaleProps } from '@/types/props'
 
-const LoginPage: React.FC<LanguageProps> = async ({ params: { locale } }) => {
+const LoginPage: React.FC<ParamsLocaleProps> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
 
 	const t = await getTranslations({ locale, namespace: 'login.signin' })
 
 	return (
-		<form className="max-w-sm space-y-6">
+		<form className="w-full space-y-6">
 			<div className="space-y-2 text-center">
 				<h1 className="text-3xl font-bold">{t('title')}</h1>
 				<p className="text-gray-500 dark:text-gray-400">{t('description')}</p>
@@ -23,7 +23,7 @@ const LoginPage: React.FC<LanguageProps> = async ({ params: { locale } }) => {
 			<div className="space-y-4">
 				<LoginForm />
 				<Link href="/signup">
-					<Button className="w-full mt-2" variant="outline">
+					<Button className="mt-2 w-full" variant="outline">
 						{t('signup')}
 						<ArrowRightIcon className="ml-2 h-4 w-4" />
 					</Button>

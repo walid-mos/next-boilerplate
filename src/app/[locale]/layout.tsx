@@ -1,9 +1,13 @@
+import { cookies } from 'next/headers'
+
+import './globals.css'
+
 import Toaster from '@/components/ui/Toast'
+import { createClient } from '@/lib/supabase/server'
 import { LOCALES, type LOCALES_TYPES } from '@/constants'
 
 import Providers from './providers'
-
-import './globals.css'
+import Navbar from './_components/Navbar'
 
 import type { Metadata } from 'next'
 
@@ -18,13 +22,23 @@ export function generateStaticParams() {
 	return LOCALES.map(locale => ({ locale }))
 }
 
-const RootLayout = async ({ children, params: { locale } }: Readonly<Props>) => (
-	<html lang={locale} suppressHydrationWarning>
-		<body className="h-screen">
-			<Providers>{children}</Providers>
-			<Toaster position="top-center" richColors />
-		</body>
-	</html>
-)
+const RootLayout = async ({ children, params: { locale } }: Readonly<Props>) => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const { data } = await supabase.auth.getUser()
+
+	return (
+		<html lang={locale} suppressHydrationWarning>
+			<body className="grid min-h-screen grid-rows-[min-content_1fr] justify-items-center px-6 py-4 sm:px-8 sm:py-6 md:px-10 md:py-8 xl:px-0">
+				<Providers>
+					<Navbar user={data.user} />
+					{children}
+				</Providers>
+				<Toaster position="top-center" richColors />
+			</body>
+		</html>
+	)
+}
 
 export default RootLayout

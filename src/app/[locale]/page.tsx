@@ -8,7 +8,7 @@ const Home = async ({ params: { locale } }: ParamsLocaleProps) => {
 	unstable_setRequestLocale(locale)
 
 	return (
-		<main className="flex flex-col min-h-[100dvh]">
+		<main className="flex max-w-screen-xl flex-col">
 			<Hero locale={locale} />
 		</main>
 	)

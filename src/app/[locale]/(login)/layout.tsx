@@ -1,5 +1,5 @@
 const Layout = ({ children }: React.PropsWithChildren) => (
-	<div className="h-full grid place-items-center">{children} </div>
+	<div className="grid h-full w-full place-items-center sm:w-[24rem]">{children} </div>
 )
 
 export default Layout

@@ -9,8 +9,10 @@ import { stripLocaleFromPath } from '@/lib/functions/pathnames'
 import { DEFAULT_LOCALE, LOCALES } from './constants'
 
 const PUBLIC_ROUTES = ['/', '/signin', '/signup', '/forgotpassword', '/waitingrecover']
+const NO_REDIRECT_ROUTES = ['/auth']
 
 export async function middleware(request: NextRequest) {
+	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
 	// -- Translation - i18n
 	const handleI18nRouting = createIntlMiddleware({
 		locales: LOCALES,
@@ -19,7 +21,7 @@ export async function middleware(request: NextRequest) {
 	const response = handleI18nRouting(request)
 
 	// -- Auth path guard
-	const isPublicPage = PUBLIC_ROUTES.includes(stripLocaleFromPath(request.nextUrl.pathname))
+	const isPublicPage = PUBLIC_ROUTES.includes(pathname)
 	if (isPublicPage) return response
 
 	// -- Supabase + Authentication

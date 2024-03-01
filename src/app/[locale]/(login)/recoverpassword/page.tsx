@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/Button'
 
 import PasswordForm from './PasswordForm'
 
-import type { LanguageProps } from '@/types/props'
+import type { ParamsLocaleProps } from '@/types/props'
 
 type Props = {
 	searchParams: { code: string }
-} & LanguageProps
+} & ParamsLocaleProps
 
 const RecoverPassword: React.FC<Props> = async ({ params: { locale } }) => {
 	unstable_setRequestLocale(locale)
@@ -25,7 +25,7 @@ const RecoverPassword: React.FC<Props> = async ({ params: { locale } }) => {
 	}
 
 	return (
-		<form className="max-w-sm space-y-6">
+		<form className="w-full space-y-6">
 			<div className="space-y-2 text-center">
 				<h1 className="text-3xl font-bold">{t('title')}</h1>
 				<p className="text-gray-500 dark:text-gray-400">{t('description')}</p>
@@ -33,7 +33,7 @@ const RecoverPassword: React.FC<Props> = async ({ params: { locale } }) => {
 			<div className="space-y-4">
 				<PasswordForm t={passwordFormTranslations} />
 				<Link href="/signin">
-					<Button className="w-full mt-2" variant="outline">
+					<Button className="mt-2 w-full" variant="outline">
 						<ArrowLeftIcon className="ml-2 h-4 w-4" />
 						{t('backlogin')}
 					</Button>

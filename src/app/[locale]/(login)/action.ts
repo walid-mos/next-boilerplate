@@ -77,12 +77,20 @@ export const forgotPassword = async (prevState: unknown, formData: FormData) => 
 	const { data: generatedLinkData, error: linkError } = await supabase.auth.admin.generateLink({
 		type: 'recovery',
 		email: validatedFields.data.email,
-		options: { redirectTo: `http://${SITE_URL}/recoverpassword` },
 	})
 
-	const emailData = { link: generatedLinkData?.properties?.action_link }
-
 	if (linkError) throw linkError
+
+	const tokenHash = generatedLinkData.properties.hashed_token
+	const searchParams = new URLSearchParams({
+		// eslint-disable-next-line camelcase
+		token_hash: tokenHash,
+		type: 'recovery',
+		next: `http://${SITE_URL}/recoverpassword`,
+	})
+	const loginLink = `/auth/confirm?${searchParams}`
+
+	const emailData = { link: `http://${SITE_URL}${loginLink}` }
 
 	const { error } = await SendMail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
 		data: emailData,
