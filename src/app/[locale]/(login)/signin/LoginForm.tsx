@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 'use client'
 
 import { useEffect } from 'react'
@@ -8,38 +10,47 @@ import { toast } from 'sonner'
 import { Label } from '@/components/ui/Label'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/functions/classname'
 
 import { login } from '../action'
 
 const initialState = {
-	err: '',
+	errors: {
+		email: [],
+		password: [],
+	},
 }
 
 const LoginForm = () => {
 	const [state, loginAction] = useFormState(login, initialState)
 
 	const { errors } = state
+	const isError = {
+		email: errors?.email?.length,
+		password: errors?.password?.length,
+	}
 	useEffect(() => {
-		if (state?.err) {
-			toast.error(state.err, { duration: 2000 })
+		if (isError.email || isError.password) {
+			// TODO : Better error message
+			toast.error('Cannot connect you', { duration: 2000 })
 		}
 	})
 
 	return (
 		<>
 			<div className="space-y-2">
-				<Label className={errors?.email && 'text-red-400'} htmlFor="email">
+				<Label className={cn(isError.email && 'text-red-400')} htmlFor="email">
 					Email
 				</Label>
 				<Input name="email" id="email" placeholder="m@example.com" type="email" />
-				{errors?.email ? <p className="text-red-400 text-xs">{errors.email[0]}</p> : null}
+				{isError.email ? <p className="text-xs text-red-400">{errors?.email![0]}</p> : null}
 			</div>
 			<div className="space-y-2">
-				<Label className={errors?.password && 'text-red-400'} htmlFor="password">
+				<Label className={cn(isError.password && 'text-red-400')} htmlFor="password">
 					Password
 				</Label>
 				<Input name="password" id="password" type="password" />
-				{errors?.password ? <p className="text-red-400 text-xs">{errors.password}</p> : null}
+				{isError.password ? <p className="text-xs text-red-400">{errors?.password![0]}</p> : null}
 			</div>
 			<Button className="w-full" formAction={loginAction}>
 				Login

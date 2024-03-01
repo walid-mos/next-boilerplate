@@ -5,6 +5,7 @@ import './globals.css'
 import Toaster from '@/components/ui/Toast'
 import { createClient } from '@/lib/supabase/server'
 import { LOCALES, type LOCALES_TYPES } from '@/constants'
+import { checkEnv } from '@/lib/functions/checkEnv'
 
 import Providers from './providers'
 import Navbar from './_components/Navbar'
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 }
 
 export function generateStaticParams() {
+	checkEnv()
 	return LOCALES.map(locale => ({ locale }))
 }
 

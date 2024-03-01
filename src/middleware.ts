@@ -1,18 +1,34 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 
 import createIntlMiddleware from 'next-intl/middleware'
 
-import { createClient } from '@/lib/supabase/middleware'
+// import { createClient } from '@/lib/supabase/middleware'
 import { stripLocaleFromPath } from '@/lib/functions/pathnames'
 
 import { DEFAULT_LOCALE, LOCALES } from './constants'
 
-const PUBLIC_ROUTES = ['/', '/signin', '/signup', '/forgotpassword', '/waitingrecover']
-const NO_REDIRECT_ROUTES = ['/auth']
+const PUBLIC_ROUTES: string[] = ['/', '/signin', '/signup', '/forgotpassword', '/waitingrecover']
+const PUBLIC_API: string[] = []
 
-export async function middleware(request: NextRequest) {
-	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
+const apiMiddleware = async (request: NextRequest, pathname: string) => {
+	const response = NextResponse.next({
+		request: {
+			headers: request.headers,
+		},
+	})
+
+	const isPublicApi = PUBLIC_API.includes(pathname)
+	if (isPublicApi) return response
+
+	// const supabase = createClient(request, response)
+	// await supabase.auth.getUser()
+
+	// TODO : Redirect if not authenticated
+	return response
+}
+
+const appMiddleware = async (request: NextRequest, pathname: string) => {
 	// -- Translation - i18n
 	const handleI18nRouting = createIntlMiddleware({
 		locales: LOCALES,
@@ -25,10 +41,19 @@ export async function middleware(request: NextRequest) {
 	if (isPublicPage) return response
 
 	// -- Supabase + Authentication
-	const supabase = createClient(request, response)
-	await supabase.auth.getUser()
+	// const supabase = createClient(request, response)
+	// await supabase.auth.getUser()
 
+	// TODO : Redirect if not authenticated
 	return response
+}
+
+export async function middleware(request: NextRequest) {
+	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
+
+	if (pathname.startsWith('/api')) return apiMiddleware(request, pathname)
+
+	return appMiddleware(request, pathname)
 }
 
 // Ensure the middleware is only called for relevant paths.

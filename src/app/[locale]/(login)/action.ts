@@ -73,7 +73,6 @@ export const forgotPassword = async (prevState: unknown, formData: FormData) => 
 		}
 	}
 
-	// TODO : Handle ERROR
 	const { data: generatedLinkData, error: linkError } = await supabase.auth.admin.generateLink({
 		type: 'recovery',
 		email: validatedFields.data.email,
@@ -86,22 +85,15 @@ export const forgotPassword = async (prevState: unknown, formData: FormData) => 
 		// eslint-disable-next-line camelcase
 		token_hash: tokenHash,
 		type: 'recovery',
-		next: `http://${SITE_URL}/recoverpassword`,
+		next: `/recoverpassword`,
 	})
-	const loginLink = `/auth/confirm?${searchParams}`
+	const loginLink = `/api/auth/confirm?${searchParams}`
 
 	const emailData = { link: `http://${SITE_URL}${loginLink}` }
 
-	const { error } = await SendMail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
+	await SendMail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
 		data: emailData,
 	})
-	// const { error } = await supabase.auth.resetPasswordForEmail(validatedFields.data.email, {
-	// 	redirectTo: `http://${SITE_URL}/recoverpassword`,
-	// })
-
-	if (error) {
-		throw error
-	}
 
 	return redirect('/waitingrecover')
 }
@@ -124,6 +116,7 @@ export const recoverPassword = async (prevState: unknown, formData: FormData) =>
 	const { error } = await supabase.auth.updateUser({ password: validatedFields.data.password })
 
 	if (error) {
+		// eslint-disable-next-line no-console
 		console.error(error)
 		return { err: error.message }
 	}

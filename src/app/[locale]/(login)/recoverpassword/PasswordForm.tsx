@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 'use client'
 
 import { useEffect } from 'react'
@@ -8,6 +10,7 @@ import { toast } from 'sonner'
 import { Label } from '@/components/ui/Label'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/functions/classname'
 
 import { recoverPassword } from '../action'
 
@@ -20,34 +23,42 @@ type Props = {
 }
 
 const initialState = {
-	err: '',
+	errors: {
+		password: [],
+		confirmPassword: [],
+	},
 }
 
 const PasswordForm: React.FC<Props> = ({ t }) => {
 	const [state, recoverPasswordAction] = useFormState(recoverPassword, initialState)
-
 	const { errors } = state
+
+	const isError = {
+		password: errors?.password?.length,
+		confirmPassword: errors?.confirmPassword?.length,
+	}
 	useEffect(() => {
-		if (state?.err) {
-			toast.error(state.err, { duration: 2000 })
+		if (isError.password || isError.confirmPassword) {
+			// TODO : Change error message to something translated
+			toast.error('Votre mot de passe est incorrect', { duration: 2000 })
 		}
 	})
 
 	return (
 		<>
 			<div className="space-y-2">
-				<Label className={errors?.password && 'text-red-400'} htmlFor="password">
+				<Label className={cn(isError.password && 'text-red-400')} htmlFor="password">
 					{t.password}
 				</Label>
 				<Input name="password" id="password" type="password" />
-				{errors?.password ? <p className="text-red-400 text-xs">{errors.password}</p> : null}
+				{isError.password ? <p className="text-xs text-red-400">{errors?.password![0]}</p> : null}
 			</div>
 			<div className="space-y-2">
-				<Label className={errors?.confirmPassword && 'text-red-400'} htmlFor="confirmPassword">
+				<Label className={cn(isError.confirmPassword && 'text-red-400')} htmlFor="confirmPassword">
 					{t.confirmPassword}
 				</Label>
 				<Input name="confirmPassword" id="confirmPassword" type="password" />
-				{errors?.confirmPassword ? <p className="text-red-400 text-xs">{errors.confirmPassword}</p> : null}
+				{isError.confirmPassword ? <p className="text-xs text-red-400">{errors?.confirmPassword![0]}</p> : null}
 			</div>
 			<Button className="w-full" formAction={recoverPasswordAction}>
 				{t.submit}

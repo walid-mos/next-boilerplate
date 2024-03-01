@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 'use client'
 
 import { useEffect } from 'react'
@@ -8,6 +10,7 @@ import { toast } from 'sonner'
 import { Label } from '@/components/ui/Label'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/functions/classname'
 
 import { forgotPassword } from '../action'
 
@@ -19,27 +22,28 @@ type Props = {
 }
 
 const initialState = {
-	err: '',
+	errors: {
+		email: [],
+	},
 }
 
 const EmailForm: React.FC<Props> = ({ t }) => {
 	const [state, forgotPasswordAction] = useFormState(forgotPassword, initialState)
-
-	const { errors } = state
+	const isError = state.errors.email?.length
 	useEffect(() => {
-		if (state?.err) {
-			toast.error(state.err, { duration: 2000 })
+		if (isError) {
+			toast.error('Votre mail est invalide', { duration: 2000 })
 		}
 	})
 
 	return (
 		<>
 			<div className="space-y-2">
-				<Label className={errors && 'text-red-400'} htmlFor="email">
+				<Label className={cn(isError && 'text-red-400')} htmlFor="email">
 					{t.email}
 				</Label>
 				<Input name="email" id="email" placeholder="m@example.com" type="email" />
-				{errors?.email ? <p className="text-red-400 text-xs">{errors.email[0]}</p> : null}
+				{isError ? <p className="text-xs text-red-400">{state.errors.email![0]}</p> : null}
 			</div>
 			<Button className="w-full" formAction={forgotPasswordAction}>
 				{t.submit}
