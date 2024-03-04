@@ -9,7 +9,6 @@ import { RowsIcon } from '@radix-ui/react-icons'
 
 import LayoutLogo from '@/components/SVG/LayoutLogo'
 import { Button } from '@/components/ui/Button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import {
 	NavigationMenu,
 	NavigationMenuItem,
@@ -19,6 +18,8 @@ import {
 import { cn } from '@/lib/functions/classname'
 import { Sheet, SheetContent } from '@/components/ui/Sheet'
 import { Separator } from '@/components/ui/Separator'
+
+import LoggedInDesktop from './LoggedInDesktop'
 
 type Props = {
 	user: User | null
@@ -45,7 +46,7 @@ const Navbar = ({ user }: Props) => {
 
 	return (
 		<header className="flex w-full flex-wrap text-sm md:flex-nowrap md:justify-center">
-			<NavigationMenu className="relative flex h-fit max-w-screen-xl justify-between rounded-[36px] border-input bg-white py-3 md:border md:px-4 lg:px-8">
+			<NavigationMenu className="relative flex h-fit min-h-8 max-w-screen-xl justify-between rounded-[36px] border-input bg-white py-3 md:border md:px-4 lg:px-8">
 				<Link href="/">
 					<LayoutLogo />
 					<span className="sr-only">Acme Inc</span>
@@ -56,7 +57,7 @@ const Navbar = ({ user }: Props) => {
 					{navItems.map(({ name, href }) => (
 						<NavigationMenuItem
 							key={useId()}
-							className="text-lg text-foreground transition-all hover:text-primary"
+							className="text-sm font-medium underline-offset-4 transition-all hover:text-primary"
 						>
 							<Link href={href} legacyBehavior passHref>
 								<NavigationMenuLink>{name}</NavigationMenuLink>
@@ -66,14 +67,12 @@ const Navbar = ({ user }: Props) => {
 					<Separator className="h-6 bg-input" orientation="vertical" />
 					<NavigationMenuItem className="flex-1">
 						{isConnected ? (
-							<Avatar className="h-9 w-9">
-								<AvatarImage alt="User" src="/profile-picture.jpg" />
-								<AvatarFallback>U</AvatarFallback>
-								<span className="sr-only">Toggle user menu</span>
-							</Avatar>
+							<LoggedInDesktop />
 						) : (
 							<Link legacyBehavior passHref href="/signin">
-								<NavigationMenuLink className="text-lg text-primary">Log In</NavigationMenuLink>
+								<NavigationMenuLink className="text-sm font-medium text-primary underline-offset-4 transition-all hover:text-secondary">
+									Log In
+								</NavigationMenuLink>
 							</Link>
 						)}
 					</NavigationMenuItem>

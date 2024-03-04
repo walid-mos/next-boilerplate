@@ -14,20 +14,23 @@ const Password = z
 	.min(5, { message: 'Must be 5 or more characters long' })
 	.max(64, { message: 'Must be 64 or fewer characters long' })
 
-export const PasswordWithConfirmSchema = z.object({
+const PasswordWithConfirm = z.object({
 	password: Password,
 	confirmPassword: z.string({
 		required_error: 'Confirm password is required',
 	}),
 })
 
-const refinePasswordValidationSchema = (schema: z.AnyZodObject) =>
-	PasswordWithConfirmSchema.merge(schema).refine(values => values.password === values.confirmPassword, {
+const refinePasswordValidation = (schema?: z.AnyZodObject) => {
+	if (schema) PasswordWithConfirm.merge(schema)
+	return PasswordWithConfirm.refine(values => values.password === values.confirmPassword, {
 		message: 'Passwords are not the same',
 		path: ['confirmPassword'],
 	})
+}
 
 export const EmailSchema = z.object({ email: Email })
 export const PasswordSchema = z.object({ password: Password })
 export const LoginSchema = z.object({ email: Email, password: Password })
-export const SignupSchema = refinePasswordValidationSchema(LoginSchema)
+export const SignUpSchema = refinePasswordValidation(LoginSchema)
+export const ConfirmPasswordSchema = refinePasswordValidation()

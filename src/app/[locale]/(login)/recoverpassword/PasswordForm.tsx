@@ -31,18 +31,20 @@ const initialState = {
 
 const PasswordForm: React.FC<Props> = ({ t }) => {
 	const [state, recoverPasswordAction] = useFormState(recoverPassword, initialState)
-	const { errors } = state
+	const { errors, message } = state
 
 	const isError = {
 		password: errors?.password?.length,
 		confirmPassword: errors?.confirmPassword?.length,
 	}
 	useEffect(() => {
-		if (isError.password || isError.confirmPassword) {
+		if (message) {
 			// TODO : Change error message to something translated
-			toast.error('Votre mot de passe est incorrect', { duration: 2000 })
+			toast.error(`Votre mot de passe est incorrect \n ${message}`, { duration: 2000 })
 		}
 	})
+
+	console.log({ errors })
 
 	return (
 		<>

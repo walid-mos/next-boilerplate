@@ -24,15 +24,15 @@ const initialState = {
 const LoginForm = () => {
 	const [state, loginAction] = useFormState(login, initialState)
 
-	const { errors } = state
+	const { errors, message } = state
 	const isError = {
 		email: errors?.email?.length,
 		password: errors?.password?.length,
 	}
 	useEffect(() => {
-		if (isError.email || isError.password) {
+		if (message) {
 			// TODO : Better error message
-			toast.error('Cannot connect you', { duration: 2000 })
+			toast.error(message, { duration: 2000 })
 		}
 	})
 

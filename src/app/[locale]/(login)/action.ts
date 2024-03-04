@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import createClient from '@/lib/supabase/action'
-import { EmailSchema, LoginSchema, PasswordWithConfirmSchema } from '@/lib/zod'
+import { EmailSchema, LoginSchema, ConfirmPasswordSchema } from '@/lib/zod'
 import { SITE_URL } from '@/constants'
 import { SendMail } from '@/lib/emails/sendEmail'
 
@@ -27,7 +27,7 @@ export const login = async (prevState: unknown, formData: FormData) => {
 	const { error } = await supabase.auth.signInWithPassword(validatedFields.data)
 
 	if (error) {
-		return { err: error.message }
+		return { message: error.message }
 	}
 
 	revalidatePath('/user', 'layout')
@@ -52,7 +52,7 @@ export const signup = async (formData: FormData) => {
 	const { error } = await supabase.auth.signUp(validatedFields.data)
 
 	if (error) {
-		return { err: error.message }
+		return { message: error.message }
 	}
 
 	revalidatePath('/signin', 'layout')
@@ -102,7 +102,7 @@ export const recoverPassword = async (prevState: unknown, formData: FormData) =>
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const validatedFields = PasswordWithConfirmSchema.safeParse({
+	const validatedFields = ConfirmPasswordSchema.safeParse({
 		password: formData.get('password'),
 		confirmPassword: formData.get('confirmPassword'),
 	})
@@ -118,9 +118,9 @@ export const recoverPassword = async (prevState: unknown, formData: FormData) =>
 	if (error) {
 		// eslint-disable-next-line no-console
 		console.error(error)
-		return { err: error.message }
+		return { message: error.message }
 	}
 
-	revalidatePath('/login', 'layout')
-	return redirect('/login')
+	revalidatePath('/signin', 'layout')
+	return redirect('/signin')
 }

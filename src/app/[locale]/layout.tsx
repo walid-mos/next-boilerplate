@@ -9,6 +9,7 @@ import { checkEnv } from '@/lib/functions/checkEnv'
 
 import Providers from './providers'
 import Navbar from './_components/Navbar'
+import Footer from './_components/Footer'
 
 import type { Metadata } from 'next'
 
@@ -36,6 +37,7 @@ const RootLayout = async ({ children, params: { locale } }: Readonly<Props>) => 
 				<Providers>
 					<Navbar user={data.user} />
 					{children}
+					<Footer />
 				</Providers>
 				<Toaster position="top-center" richColors />
 			</body>
