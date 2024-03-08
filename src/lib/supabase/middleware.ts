@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@/constants'
+
+import type { NextRequest} from 'next/server';
 
 export const createClient = (request: NextRequest, response: NextResponse) =>
 	createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {

@@ -1,8 +1,9 @@
-import { cookies } from 'next/headers'
 
 import { type CookieOptions, createServerClient } from '@supabase/ssr'
 
 import { SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL } from '@/constants'
+
+import type { cookies } from 'next/headers'
 
 const createClient = (cookieStore: ReturnType<typeof cookies>) =>
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

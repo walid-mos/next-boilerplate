@@ -1,11 +1,13 @@
 'use client'
 
-import { ComponentPropsWithoutRef, ElementRef, HTMLAttributes, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
 
 import { cn } from '@/functions/classname'
+
+import type { ComponentPropsWithoutRef, ElementRef, HTMLAttributes} from 'react';
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 

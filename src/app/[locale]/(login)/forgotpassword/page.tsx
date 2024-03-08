@@ -1,18 +1,15 @@
 import Link from 'next/link'
 
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/components/ui/Button'
+import EmailForm from '@/components/modules/auth/EmailForm'
+import { getTranslation } from '@/functions/translations'
 
-import EmailForm from './EmailForm'
+import type { PropsWithParamsLocale } from '@/types/props'
 
-import type { ParamsLocaleProps } from '@/types/props'
-
-const ForgotPassword: React.FC<ParamsLocaleProps> = async ({ params: { locale } }) => {
-	unstable_setRequestLocale(locale)
-
-	const t = await getTranslations({ locale, namespace: 'login.forgotpassword' })
+const ForgotPassword = async ({ params: { locale } }: PropsWithParamsLocale) => {
+	const t = await getTranslation('login.forgotpassword', locale)
 
 	const emailFormTranslations = { email: t('email'), submit: t('send') }
 

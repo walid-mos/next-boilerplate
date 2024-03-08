@@ -1,22 +1,19 @@
 import Link from 'next/link'
 
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/ui/Button'
+import PasswordForm from '@/components/modules/auth/PasswordForm'
+import { getTranslation } from '@/functions/translations'
 
-import PasswordForm from './PasswordForm'
-
-import type { ParamsLocaleProps } from '@/types/props'
+import type { PropsWithParamsLocale } from '@/types/props'
 
 type Props = {
 	searchParams: { code: string }
-} & ParamsLocaleProps
+} & PropsWithParamsLocale
 
-const RecoverPassword: React.FC<Props> = async ({ params: { locale } }) => {
-	unstable_setRequestLocale(locale)
-
-	const t = await getTranslations({ locale, namespace: 'login.recoverpassword' })
+const RecoverPassword = async ({ params: { locale } }: Props) => {
+	const t = await getTranslation('login.recoverpassword', locale)
 
 	const passwordFormTranslations = {
 		password: t('password'),

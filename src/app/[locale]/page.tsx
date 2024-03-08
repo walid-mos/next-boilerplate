@@ -1,15 +1,15 @@
 import { unstable_setRequestLocale } from 'next-intl/server'
 
-import Hero from './_components/Hero'
+import Hero from '@/components/modules/home/Hero'
 
-import type { ParamsLocaleProps } from '@/types/props'
+import type { PropsWithParamsLocale } from '@/types/props'
 
-const Home = async ({ params: { locale } }: ParamsLocaleProps) => {
+const Home = async ({ params: { locale } }: PropsWithParamsLocale) => {
 	unstable_setRequestLocale(locale)
 
 	return (
 		<main className="flex max-w-screen-xl flex-col">
-			<Hero locale={locale} />
+			<Hero />
 		</main>
 	)
 }

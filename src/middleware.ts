@@ -1,59 +1,39 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 import createIntlMiddleware from 'next-intl/middleware'
 
-// import { createClient } from '@/lib/supabase/middleware'
 import { stripLocaleFromPath } from '@/lib/functions/pathnames'
 
 import { DEFAULT_LOCALE, LOCALES } from './constants'
 
-const PUBLIC_ROUTES: string[] = ['/', '/signin', '/signup', '/forgotpassword', '/waitingrecover']
+import type { NextRequest } from 'next/server'
+
 const PUBLIC_API: string[] = []
 
-const apiMiddleware = async (request: NextRequest, pathname: string) => {
-	const response = NextResponse.next({
-		request: {
-			headers: request.headers,
-		},
-	})
+export async function middleware(request: NextRequest) {
+	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
 
-	const isPublicApi = PUBLIC_API.includes(pathname)
-	if (isPublicApi) return response
+	// -- No redirect locale for API
+	if (pathname.startsWith('/api')) {
+		const response = NextResponse.next({
+			request: {
+				headers: request.headers,
+			},
+		})
 
-	// const supabase = createClient(request, response)
-	// await supabase.auth.getUser()
+		const isPublicApi = PUBLIC_API.includes(pathname)
+		if (isPublicApi) return response
 
-	// TODO : Redirect if not authenticated
-	return response
-}
+		return response
+	}
 
-const appMiddleware = async (request: NextRequest, pathname: string) => {
 	// -- Translation - i18n
 	const handleI18nRouting = createIntlMiddleware({
 		locales: LOCALES,
 		defaultLocale: DEFAULT_LOCALE,
 	})
-	const response = handleI18nRouting(request)
-
-	// -- Auth path guard
-	const isPublicPage = PUBLIC_ROUTES.includes(pathname)
-	if (isPublicPage) return response
-
-	// -- Supabase + Authentication
-	// const supabase = createClient(request, response)
-	// await supabase.auth.getUser()
-
-	// TODO : Redirect if not authenticated
-	return response
-}
-
-export async function middleware(request: NextRequest) {
-	const pathname = stripLocaleFromPath(request.nextUrl.pathname)
-
-	if (pathname.startsWith('/api')) return apiMiddleware(request, pathname)
-
-	return appMiddleware(request, pathname)
+	return handleI18nRouting(request)
 }
 
 // Ensure the middleware is only called for relevant paths.

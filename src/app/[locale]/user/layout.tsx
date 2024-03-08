@@ -1,16 +1,7 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-
-import { createClient } from '@/lib/supabase/server'
+import { redirectIfNotConnected } from '@/functions/auth'
 
 const Layout = async ({ children }: React.PropsWithChildren) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-
-	const { data, error } = await supabase.auth.getUser()
-	if (error || !data?.user) {
-		redirect('/signin')
-	}
+	redirectIfNotConnected()
 
 	return <div> {children} </div>
 }

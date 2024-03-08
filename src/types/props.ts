@@ -1,11 +1,14 @@
-import { LOCALES_TYPES } from '@/constants'
+import type { getTranslations } from 'next-intl/server'
+import type { LOCALES_TYPES } from '@/constants'
 
-export type LocaleProps = {
+export type TranslationParameters = Parameters<typeof getTranslations>[0]
+export type NamespaceKeys = NonNullable<Extract<TranslationParameters, object>['namespace']>
+
+export type PropsWithLocale = {
 	locale: LOCALES_TYPES
 }
-
-export type ParamsLocaleProps = {
-	params: LocaleProps
+export type PropsWithParamsLocale = {
+	params: PropsWithLocale
 }
 
 export type SVGProps = {

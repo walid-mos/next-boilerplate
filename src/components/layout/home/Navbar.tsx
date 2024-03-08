@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 import { useId, useState } from 'react'
 
-import { User } from '@supabase/supabase-js'
 import { RowsIcon } from '@radix-ui/react-icons'
 
 import { cn } from '@/functions/classname'
@@ -15,6 +14,8 @@ import { Sheet, SheetContent } from '@/ui/Sheet'
 import { Separator } from '@/ui/Separator'
 
 import LoggedInDesktop from './LoggedInDesktop'
+
+import type { User } from '@supabase/supabase-js'
 
 type Props = {
 	user: User | null

@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 
 import '@/styles/globals.css'
 
+import { unstable_setRequestLocale } from 'next-intl/server'
 
 import { LOCALES, type LOCALES_TYPES } from '@/constants'
 import { createClient } from '@/lib/supabase/server'
@@ -25,6 +26,7 @@ export function generateStaticParams() {
 }
 
 const RootLayout = async ({ children, params: { locale } }: Readonly<Props>) => {
+	unstable_setRequestLocale(locale)
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 

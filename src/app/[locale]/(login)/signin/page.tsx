@@ -1,18 +1,15 @@
 import Link from 'next/link'
 
 import { ArrowRightIcon } from '@radix-ui/react-icons'
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
 import { Button } from '@/ui/Button'
+import LoginForm from '@/components/modules/auth/LoginForm'
+import { getTranslation } from '@/functions/translations'
 
-import LoginForm from './LoginForm'
+import type { PropsWithParamsLocale } from '@/types/props'
 
-import type { ParamsLocaleProps } from '@/types/props'
-
-const LoginPage: React.FC<ParamsLocaleProps> = async ({ params: { locale } }) => {
-	unstable_setRequestLocale(locale)
-
-	const t = await getTranslations({ locale, namespace: 'login.signin' })
+const LoginPage = async ({ params: { locale } }: PropsWithParamsLocale) => {
+	const t = await getTranslation('login.signin', locale)
 
 	return (
 		<form className="w-full space-y-6">

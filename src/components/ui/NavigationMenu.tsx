@@ -1,12 +1,14 @@
 'use client'
 
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import { cva } from 'class-variance-authority'
 
 import { cn } from '@/functions/classname'
+
+import type { ComponentPropsWithoutRef, ElementRef} from 'react';
 
 const NavigationMenuViewport = forwardRef<
 	ElementRef<typeof NavigationMenuPrimitive.Viewport>,

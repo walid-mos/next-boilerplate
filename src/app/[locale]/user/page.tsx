@@ -1,4 +1,4 @@
-import SignOutButton from './SignOutButton'
+import SignOutButton from '@/components/modules/auth/SignOutButton'
 
 const User = () => (
 	<div>
