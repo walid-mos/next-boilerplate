@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/ui/Button'
 
 import LoginForm from './LoginForm'
 

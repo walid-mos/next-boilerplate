@@ -7,17 +7,12 @@ import { useId, useState } from 'react'
 import { User } from '@supabase/supabase-js'
 import { RowsIcon } from '@radix-ui/react-icons'
 
-import LayoutLogo from '@/components/SVG/LayoutLogo'
-import { Button } from '@/components/ui/Button'
-import {
-	NavigationMenu,
-	NavigationMenuItem,
-	NavigationMenuLink,
-	NavigationMenuList,
-} from '@/components/ui/NavigationMenu'
-import { cn } from '@/lib/functions/classname'
-import { Sheet, SheetContent } from '@/components/ui/Sheet'
-import { Separator } from '@/components/ui/Separator'
+import { cn } from '@/functions/classname'
+import LayoutLogo from '@/ui/SVG/LayoutLogo'
+import { Button } from '@/ui/Button'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@/ui/NavigationMenu'
+import { Sheet, SheetContent } from '@/ui/Sheet'
+import { Separator } from '@/ui/Separator'
 
 import LoggedInDesktop from './LoggedInDesktop'
 

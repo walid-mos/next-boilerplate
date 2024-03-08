@@ -1,15 +1,15 @@
 import { cookies } from 'next/headers'
 
-import './globals.css'
+import '@/styles/globals.css'
 
-import Toaster from '@/components/ui/Toast'
-import { createClient } from '@/lib/supabase/server'
+
 import { LOCALES, type LOCALES_TYPES } from '@/constants'
-import { checkEnv } from '@/lib/functions/checkEnv'
+import { createClient } from '@/lib/supabase/server'
+import Toaster from '@/ui/Toast'
+import Navbar from '@/components/layout/home/Navbar'
+import Footer from '@/components/layout/home/Footer'
 
 import Providers from './providers'
-import Navbar from './_components/Navbar'
-import Footer from './_components/Footer'
 
 import type { Metadata } from 'next'
 
@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 }
 
 export function generateStaticParams() {
-	checkEnv()
 	return LOCALES.map(locale => ({ locale }))
 }
 

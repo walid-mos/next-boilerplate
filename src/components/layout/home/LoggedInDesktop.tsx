@@ -2,7 +2,7 @@
 
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/Avatar'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -16,9 +16,8 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from '@/components/ui/Dropdown'
-
-import { handleSignOut } from '../user/action'
+} from '@/ui/Dropdown'
+import { handleSignOut } from '@/actions/user.action'
 
 const LoggedInDesktop = () => (
 	<DropdownMenu>

@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
 import createClient from '@/lib/supabase/action'
 import { EmailSchema, LoginSchema, ConfirmPasswordSchema } from '@/lib/zod'
 import { SITE_URL } from '@/constants'
-import { SendMail } from '@/lib/emails/sendEmail'
+import { SendEmail } from '@/functions/sendEmail'
 
 export const login = async (prevState: unknown, formData: FormData) => {
 	const cookieStore = cookies()
@@ -91,7 +91,7 @@ export const forgotPassword = async (prevState: unknown, formData: FormData) => 
 
 	const emailData = { link: `http://${SITE_URL}${loginLink}` }
 
-	await SendMail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
+	await SendEmail(validatedFields.data.email, 'Password Recover', 'forgotPassword', {
 		data: emailData,
 	})
 

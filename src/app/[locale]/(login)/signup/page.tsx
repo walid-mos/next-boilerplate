@@ -3,11 +3,10 @@ import Link from 'next/link'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 
-import { Label } from '@/components/ui/Label'
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
-
-import { signup } from '../action'
+import { Label } from '@/ui/Label'
+import { Input } from '@/ui/Input'
+import { Button } from '@/ui/Button'
+import { signup } from '@/actions/login.action'
 
 import type { ParamsLocaleProps } from '@/types/props'
 

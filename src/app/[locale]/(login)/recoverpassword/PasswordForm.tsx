@@ -7,12 +7,11 @@ import { useEffect } from 'react'
 import { useFormState } from 'react-dom'
 import { toast } from 'sonner'
 
-import { Label } from '@/components/ui/Label'
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
-import { cn } from '@/lib/functions/classname'
-
-import { recoverPassword } from '../action'
+import { Label } from '@/ui/Label'
+import { Input } from '@/ui/Input'
+import { Button } from '@/ui/Button'
+import { cn } from '@/functions/classname'
+import { recoverPassword } from '@/actions/login.action'
 
 type Props = {
 	t: {
@@ -43,8 +42,6 @@ const PasswordForm: React.FC<Props> = ({ t }) => {
 			toast.error(`Votre mot de passe est incorrect \n ${message}`, { duration: 2000 })
 		}
 	})
-
-	console.log({ errors })
 
 	return (
 		<>

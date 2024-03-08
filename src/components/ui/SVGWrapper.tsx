@@ -3,7 +3,7 @@ import { cn } from '@/lib/functions/classname'
 import type { SVGProps } from '@/types/props'
 
 type Props = Omit<SVGProps, 'children'> & {
-	fill: 'none' | 'currentColor' | 'currentFill'
+	fill: string
 	viewBox?: string
 	internalClassName?: string
 	children: React.ReactNode

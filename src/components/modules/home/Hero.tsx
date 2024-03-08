@@ -5,10 +5,8 @@ import { getTranslations } from 'next-intl/server'
 
 import Placeholder from '@/public/svg/placeholder.svg'
 
-import type { LocaleProps } from '@/types/props'
-
-const Hero = async ({ locale }: LocaleProps) => {
-	const t = await getTranslations({ locale, namespace: 'landing.Hero' })
+const Hero = async () => {
+	const t = await getTranslations('landing.Hero')
 
 	return (
 		<section className="w-full py-6 md:py-16 xl:py-32 ">
@@ -42,4 +40,5 @@ const Hero = async ({ locale }: LocaleProps) => {
 		</section>
 	)
 }
+
 export default Hero

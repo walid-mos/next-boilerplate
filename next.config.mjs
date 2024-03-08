@@ -1,4 +1,7 @@
+// @ts-check
 import createNextIntlPlugin from 'next-intl/plugin'
+
+import './scripts/checkNextEnv.mjs'
 
 const withNextIntl = createNextIntlPlugin()
 

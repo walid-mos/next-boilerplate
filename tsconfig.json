@@ -6,6 +6,7 @@
       "esnext"
     ],
     "allowJs": true,
+    "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -22,23 +23,35 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
       "@/public/*": [
         "./public/*"
       ],
-      "@/locales/*": [
-        "./locales/*"
+      "@/styles/*": [
+        "./src/styles/*"
       ],
-      "@/lib/*": [
-        "./lib/*"
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/ui/*": [
+        "./src/components/ui/*"
+      ],
+      "@/locales/*": [
+        "./src/locales/*"
       ],
       "@/types/*": [
-        "./types/*"
+        "./src/types/*"
       ],
       "@/functions/*": [
-        "./lib/functions/*"
+        "./src/lib/functions/*"
+      ],
+      "@/actions/*": [
+        "./src/actions/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/*": [
+        "./src/*"
       ]
     }
   },

@@ -3,7 +3,7 @@ import { createElement } from 'react'
 import { Resend } from 'resend'
 
 import { RESEND_API_KEY } from '@/constants'
-import ForgotPasswordEmail from '@/lib/emails/forgotpassword'
+import ForgotPasswordEmail from '@/components/emails/ForgotPassword'
 
 const resend = new Resend(RESEND_API_KEY)
 
@@ -26,7 +26,7 @@ type DataProps = {
 
 // TODO : Test via zod mails
 // TODO : Handle Errors
-export const SendMail = async (to: string, subject: string, template: Templates, { from, data }: DataProps) => {
+export const SendEmail = async (to: string, subject: string, template: Templates, { from, data }: DataProps) => {
 	const EmailTemplate = importTemplate(template)
 	try {
 		return resend.emails.send({
