@@ -42,14 +42,14 @@ const Navbar = ({ user }: Props) => {
 
 	return (
 		<header className="flex w-full flex-wrap text-sm md:flex-nowrap md:justify-center">
-			<NavigationMenu className="relative flex h-fit min-h-8 max-w-screen-xl justify-between rounded-[36px] border-input bg-white py-3 md:border md:px-4 lg:px-8">
+			<NavigationMenu className="relative flex h-fit max-w-screen-xl justify-between rounded-[36px] border-input bg-white py-3 md:border md:px-4 lg:px-8">
 				<Link href="/">
 					<LayoutLogo />
 					<span className="sr-only">Acme Inc</span>
 				</Link>
 
 				{/* Desktop Navigation */}
-				<NavigationMenuList className="hidden md:flex md:gap-5 lg:gap-8">
+				<NavigationMenuList className="hidden h-8 md:flex md:gap-5 lg:gap-8">
 					{navItems.map(({ name, href }) => (
 						<NavigationMenuItem
 							key={useId()}
@@ -61,7 +61,7 @@ const Navbar = ({ user }: Props) => {
 						</NavigationMenuItem>
 					))}
 					<Separator className="h-6 bg-input" orientation="vertical" />
-					<NavigationMenuItem className="flex-1">
+					<NavigationMenuItem className="w-14 flex-1">
 						{isConnected ? (
 							<LoggedInDesktop />
 						) : (
@@ -106,40 +106,5 @@ const Navbar = ({ user }: Props) => {
 		</header>
 	)
 }
-/* <Separator className="hidden bg-accent sm:flex" orientation="vertical" />
-						<NavigationMenuItem className="flex-1">
-							{isConnected ? (
-								<Avatar className="h-9 w-9">
-									<AvatarImage alt="User" src="/profile-picture.jpg" />
-									<AvatarFallback>U</AvatarFallback>
-									<span className="sr-only">Toggle user menu</span>
-								</Avatar>
-							) : (
-								<Link href="/signin">
-									<NavigationMenuLink>Log In</NavigationMenuLink>
-								</Link>
-							)}
-						</NavigationMenuItem> */
 
-// <ul
-// 	className={cn(
-// 		'absolute z-40 mt-14 min-h-fit w-full origin-top overflow-hidden bg-accent transition-all duration-500 md:hidden',
-// 		!isOpen && 'h-0',
-// 	)}
-// >
-// 	<div className="my-6 flex h-fit flex-col items-center justify-between gap-5">
-// 		{navItems.map(({ name, href }) => (
-// 			<li key={useId()}>
-// 				<Link
-// 					href={href}
-// 					legacyBehavior
-// 					passHref
-// 					className="my-4 text-gray-800 duration-500 hover:text-blue-400"
-// 				>
-// 					{name}
-// 				</Link>
-// 			</li>
-// 		))}
-// 	</div>
-// </ul>
 export default Navbar
